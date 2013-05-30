@@ -17,104 +17,104 @@
 		</style>
 	</head>
 	<body>
-	<div style="text-align: center"><h2>How's it feel?</h2></div>
-	<div id="painSlider"></div>
-	<div id="painText"></div>
-	<br/>
-	<button id="mButton">Mark it, dude</button>
-	<br/>
-	<div>Scale:</div>
-	<div id="scaleSlider"></div>
-	<br/>
-	<div id="results"></div>
-	<div id="graphHolder" style="height: 400px; width: 420px; overflow-y: scroll; border: 1px solid black">
-		<canvas id="graph" style="border: 1px solid black"></canvas>
-	</div>
-	<script type="text/javascript">
-		var resultArray;
-		var timeScale = 10;
-		var painLevel = 50;
-		if (localStorage.savedResults){
-			resultArray = $.parseJSON(localStorage.savedResults);
-			drawGraph();
-		} else {
-			resultArray = [[], []];
-		}
-		
-		$("#scaleSlider").slider({
-		      min: 1,
-		      max: 100,
-		      value: 50,
-		      stop: function( event, ui ) {
-					timeScale = ui.value;
-					drawGraph();
-		      }
-		    });
-		
-		$("#painSlider").slider({
-		      min: 1,
-		      max: 100,
-		      value: painLevel,
-		      slide: function( event, ui ) {
-		      	painLevel = ui.value;
-		      	var col = 'rgb(';
-		      	if (painLevel < 50) {
-		      		col += (5 * painLevel);
-		      		col += ', 255';
-		      	} else {
-		      		col += '255, ';
-		      		col += (250 - 5 * (painLevel - 50));
-		      	}
-		      	col += ', 0)';
-		      	$("#painSlider").css({ 
-		      		'background-color' : col
-		      		});
-					$("#painText").html(painLevel);
-		      }
-		    });
-		
-		$("#mButton").click(function() {
-			var now = new Date().getTime();
-			resultArray[0].push(painLevel);
-			resultArray[1].push(now);
-			localStorage.savedResults = JSON.stringify(resultArray);
-			drawGraph();
-		});
-		
-		function colorForPainLevel(level) {
-			return 0x00FF00;
-		}
-		
-		function drawGraph() {
-			var xScale = 4;			//scale up		
-			var yScale = (1000 * timeScale);	//scale down
-			var len = Math.round((resultArray[1][resultArray[1].length -1] - resultArray[1][0]) / yScale);
-			var width = 100 * xScale;
-			$("#graph").attr("width", width);
-			$("#graph").attr("height", len);
-			$("#graphHolder").scrollTop($("#graphHolder")[0].scrollHeight);
-			var ctx = $("#graph")[0].getContext("2d");
-			var gradient=ctx.createLinearGradient(0, 0, width, 0);
-			gradient.addColorStop("0.2","green");
-			gradient.addColorStop("0.4","yellow");
-			gradient.addColorStop("0.6","orange");
-			gradient.addColorStop("0.8","red");	
-			ctx.strokeStyle=gradient;
-			ctx.lineWidth=3;
-			var startY = resultArray[1][0];
-			var lastY = 0;
-			for (var i = 0; i < resultArray[0].length; i++) {
-				var thisX = resultArray[0][i] * xScale;
-				var thisY = Math.round((resultArray[1][i] - startY) / yScale);
-				if (i == 0) {
-					ctx.moveTo(thisX, thisY);
-				} else {
-					ctx.lineTo(thisX, thisY);
-					ctx.stroke();
-				}
-				lastY = thisY;	
+		<div style="text-align: center"><h2>How's it feel?</h2></div>
+		<div id="painSlider"></div>
+		<div id="painText"></div>
+		<br/>
+		<button id="mButton">Mark it, dude</button>
+		<br/>
+		<div>Scale:</div>
+		<div id="scaleSlider"></div>
+		<br/>
+		<div id="results"></div>
+		<div id="graphHolder" style="height: 400px; width: 420px; overflow-y: scroll; border: 1px solid black">
+			<canvas id="graph" style="border: 1px solid black"></canvas>
+		</div>
+		<script type="text/javascript">
+			var resultArray;
+			var timeScale = 10;
+			var painLevel = 50;
+			if (localStorage.savedResults){
+				resultArray = $.parseJSON(localStorage.savedResults);
+				drawGraph();
+			} else {
+				resultArray = [[], []];
 			}
-		}
-	</script>
-</body>
+			
+			$("#scaleSlider").slider({
+				  min: 1,
+				  max: 100,
+				  value: 50,
+				  stop: function( event, ui ) {
+						timeScale = ui.value;
+						drawGraph();
+				  }
+				});
+			
+			$("#painSlider").slider({
+				  min: 1,
+				  max: 100,
+				  value: painLevel,
+				  slide: function( event, ui ) {
+					painLevel = ui.value;
+					var col = 'rgb(';
+					if (painLevel < 50) {
+						col += (5 * painLevel);
+						col += ', 255';
+					} else {
+						col += '255, ';
+						col += (250 - 5 * (painLevel - 50));
+					}
+					col += ', 0)';
+					$("#painSlider").css({ 
+						'background-color' : col
+						});
+						$("#painText").html(painLevel);
+				  }
+				});
+			
+			$("#mButton").click(function() {
+				var now = new Date().getTime();
+				resultArray[0].push(painLevel);
+				resultArray[1].push(now);
+				localStorage.savedResults = JSON.stringify(resultArray);
+				drawGraph();
+			});
+			
+			function colorForPainLevel(level) {
+				return 0x00FF00;
+			}
+			
+			function drawGraph() {
+				var xScale = 4;			//scale up		
+				var yScale = (1000 * timeScale);	//scale down
+				var len = Math.round((resultArray[1][resultArray[1].length -1] - resultArray[1][0]) / yScale);
+				var width = 100 * xScale;
+				$("#graph").attr("width", width);
+				$("#graph").attr("height", len);
+				$("#graphHolder").scrollTop($("#graphHolder")[0].scrollHeight);
+				var ctx = $("#graph")[0].getContext("2d");
+				var gradient=ctx.createLinearGradient(0, 0, width, 0);
+				gradient.addColorStop("0.2","green");
+				gradient.addColorStop("0.4","yellow");
+				gradient.addColorStop("0.6","orange");
+				gradient.addColorStop("0.8","red");	
+				ctx.strokeStyle=gradient;
+				ctx.lineWidth=3;
+				var startY = resultArray[1][0];
+				var lastY = 0;
+				for (var i = 0; i < resultArray[0].length; i++) {
+					var thisX = resultArray[0][i] * xScale;
+					var thisY = Math.round((resultArray[1][i] - startY) / yScale);
+					if (i == 0) {
+						ctx.moveTo(thisX, thisY);
+					} else {
+						ctx.lineTo(thisX, thisY);
+						ctx.stroke();
+					}
+					lastY = thisY;	
+				}
+			}
+		</script>
+	</body>
 </html>
