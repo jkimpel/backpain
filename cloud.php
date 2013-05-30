@@ -19,6 +19,13 @@
 		die('Could not connect: ' . mysql_error());
 	}
 	mysql_select_db("backpain_zxq_cloud", $con);
+	
+	if ($mode === 'put'){
+		$qstring = "update  data set val='$val' where user='$user' and app='$app' and field='$field'";
+		echo "<div>Update=$qstring</div>";
+		mysql_query($qstring);
+	}
+	
 	$qstring = "select val from data where user='$user' and app='$app' and field='$field'";
 	echo "<div>Query=$qstring</div>";
 	$result = mysql_query($qstring);
