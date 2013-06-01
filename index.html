@@ -6,28 +6,35 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 		<style>
+			.center {
+				display: block;
+				margin: 0px auto;
+				text-align: center}
 			#scaleSlider {
-				width: 200px;}
+				width: 200px;
+				margin:0px auto}
 			#painSlider {
 				display:inline-block; 
 				width: 200px; 
-				background-image: none;}
+				background-image: none}
 			#painText {
 				display: inline-block;}
 		</style>
 	</head>
 	<body>
-		<div style="text-align: center"><h2>How's it feel?</h2></div>
-		<div id="painSlider"></div>
-		<div id="painText"></div>
+		<h2 class="center">How's it feel?</h2>
+		<div class="center">
+			<div id="painSlider"></div>
+			<div id="painText"></div>
+		</div>
 		<br/>
-		<button id="mButton">Mark it, dude</button>
+		<button id="mButton" class="center">Mark it, dude</button>
 		<br/>
-		<div>Scale:</div>
-		<div id="scaleSlider"></div>
+		<div class="center">Scale:</div>
+		<div id="scaleSlider" class="center"></div>
 		<br/>
 		<div id="results"></div>
-		<div id="graphHolder" style="height: 400px; width: 420px; overflow-y: scroll; border: 1px solid black">
+		<div id="graphHolder" style="height: 400px; width: 420px; overflow-y: scroll; border: 1px solid black; margin: 0 auto">
 			<canvas id="graph" style="border: 1px solid black"></canvas>
 		</div>
 		<script type="text/javascript">
@@ -80,6 +87,8 @@
 				localStorage.savedResults = JSON.stringify(resultArray);
 				drawGraph();
 			});
+			
+			$("#mButton").button();
 			
 			function colorForPainLevel(level) {
 				return 0x00FF00;
