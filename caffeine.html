@@ -1,7 +1,7 @@
 <!doctype html>
 	<head>
 		<meta charset="utf-8">
-		<title> tracker</title>
+		<title>Caffeine tracker</title>
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
@@ -14,10 +14,16 @@
 	</head>
 	<body>
 		<h2 class="center">Track Your Caffeine Intake</h2>
-		<button>Now</button>	
-		
+		<button>Show</button>	
+		<div id="temp">I don't know yet</div>
 		<script type="text/javascript">
 			$('button').button();
+			$('button').click(function() {
+				$('#temp').html("Been Clicked");
+				$.ajax( "http://backpain.zxq.net/cloud.php?mode=get&user=joe&app=caffeine&field=save" )
+					.done(function(data) { $('#temp').html(data); })
+					.fail(function() { alert("error"); })
+			});
 		</script>
 	</body>
 </html>
